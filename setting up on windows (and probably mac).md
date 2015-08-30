@@ -22,5 +22,6 @@ You should be all set now, so let's give it a try:
 
 Common Problems
 ===================
-# I get the error "ImportError: No module named vtk".
-## Make sure you have ran "conda install --name vtk" succesfully and are using the anaconda version of Python, when you start a python shell it should say something like "Python 2.7.10 |Anaconda 2.3.0 (64-bit)| (default, May 28 2015, 16:44:52) [MSC v.1500 64 bit (AMD64)] on win32".
+1.  I get the error "ImportError: No module named vtk".
+
+Make sure you have ran "conda install --name vtk" succesfully and are using the anaconda version of Python, when you start a python shell it should say something like "Python 2.7.10 |Anaconda 2.3.0 (64-bit)| (default, May 28 2015, 16:44:52) [MSC v.1500 64 bit (AMD64)] on win32".
