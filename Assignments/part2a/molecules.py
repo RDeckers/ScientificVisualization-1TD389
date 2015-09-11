@@ -11,6 +11,8 @@ python molecules.py
 import vtk
 import molecules_io
 
+#needed to determine the path to the source files
+from os.path import dirname, realpath, join
 
 # Define a class for the keyboard interface
 class KeyboardInterface(object):
@@ -51,10 +53,11 @@ class KeyboardInterface(object):
 
 # Read the data into a vtkPolyData object using the functions in
 # molecules_io.py
+basedir = dirname(realpath(__file__)) #Get the directory of the .py file, courtesy of http://stackoverflow.com/a/5137509/4455880
 data = vtk.vtkPolyData()
-data.SetPoints(molecules_io.read_points("coordinates.txt"))
-data.GetPointData().SetScalars(molecules_io.read_scalars("radii.txt"))
-data.SetLines(molecules_io.read_connections("connections.txt"))
+data.SetPoints(molecules_io.read_points(join(basedir, "coordinates.txt")))
+data.GetPointData().SetScalars(molecules_io.read_scalars(join(basedir, "radii.txt")))
+data.SetLines(molecules_io.read_connections(join(basedir, "connections.txt")))
 
 #
 #

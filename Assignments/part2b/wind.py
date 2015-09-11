@@ -11,6 +11,9 @@ python wind.py
 
 import vtk
 
+#needed to determine the path to the source files
+from os.path import dirname, realpath, join
+
 
 # Define a class for the keyboard interface
 class KeyboardInterface(object):
@@ -51,7 +54,8 @@ class KeyboardInterface(object):
 
 # Read the dataset
 reader = vtk.vtkStructuredPointsReader()
-reader.SetFileName("wind.vtk")
+basedir = dirname(realpath(__file__)) #Get the directory of the .py file, courtesy of http://stackoverflow.com/a/5137509/4455880
+reader.SetFileName(join(basedir, "wind.vtk"))
 reader.Update()
 
 #
