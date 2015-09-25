@@ -1,3 +1,6 @@
+UNLESS OTHERWISE NOTED, ALL CODE INCLUDED IN SUBDIRECTORIES W.R.T. THIS FILE FALL UNDER THE FOLLOWING LICENSE IN SO FAR AS IT IS WITHIN MY POWER TO GRANT THIS LICENSE.
+====================================================================================================================
+
                     GNU GENERAL PUBLIC LICENSE
                        Version 3, 29 June 2007
 
