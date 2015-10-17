@@ -56,12 +56,12 @@ points_polydata.SetPoints(points)
 points_polydata.GetPointData().AddArray(point_strength)
 points_polydata.GetPointData().AddArray(point_time)
 points_polydata.GetPointData().SetActiveScalars("strength")
-
+print 'Bounds are: ', points.GetBounds()
 sphere_source = vtkSphereSource()
 
 glyph = vtkGlyph3D();
 glyph.SetSourceConnection(sphere_source.GetOutputPort());
-glyph.SetInput(points_polydata)
+glyph.SetInputData(points_polydata)
 glyph.SetColorModeToColorByScalar()
 glyph.Update()
 
@@ -72,18 +72,41 @@ actor = vtkActor()
 actor.SetMapper(mapper)
 
 outline = vtkOutlineFilter()
-outline.SetInput(points_polydata)
+outline.SetInputData(points_polydata)
 mapper_outline = vtkPolyDataMapper()
 mapper_outline.SetInputConnection(outline.GetOutputPort())
 
 actor_outline = vtkActor()
 actor_outline.SetMapper(mapper_outline)
 
+image_reader = vtkImageReader()
+image_reader.SetFileName('nasa_equirectangular.jpg') #TODO: add basedir
+#image_reader.Update()
+
+texture = vtkTexture()
+texture.SetInputConnection(image_reader.GetOutputPort())
+texture.Update()
+
+plane_source = vtkPlaneSource()
+plane_source.SetCenter(100,100,100)
+plane_source.SetNormal(0,0,1)
+
+plane_mapper = vtkPolyDataMapper()
+plane_mapper.SetInputConnection(plane_source.GetOutputPort())
+
+textured_plane = vtkActor()
+textured_plane.SetMapper(plane_mapper)
+textured_plane.SetTexture(texture)
+
+image_mapper = vtkImageMapper()
+image_mapper.SetInputData(image_reader.GetOutput())
+
 # Create a renderer and add the actors to it
 renderer = vtk.vtkRenderer()
 renderer.SetBackground(0.2, 0.2, 0.2)
-renderer.AddActor(actor)
-renderer.AddActor(actor_outline)
+#renderer.AddActor(actor)
+#renderer.AddActor(actor_outline)
+renderer.AddActor(textured_plane)
 
 render_window = vtk.vtkRenderWindow()
 render_window.SetWindowName("earthquake")
@@ -99,7 +122,7 @@ interactor.SetRenderWindow(render_window)
 window2image_filter = vtk.vtkWindowToImageFilter()
 window2image_filter.SetInput(render_window)
 png_writer = vtk.vtkPNGWriter()
-png_writer.SetInput(window2image_filter.GetOutput())
+png_writer.SetInputConnection(window2image_filter.GetOutputPort())
 
 # Set up the keyboard interface
 keyboard_interface = KeyboardInterface()
